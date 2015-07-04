@@ -1,0 +1,54 @@
+# Script template para demonios
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          servicioHTTP
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: servicio http
+# Description:       Tarea3 SOPES2 - Edwin Lopez 201122990
+### END INIT INFO
+ 
+programa=/home/edwin/servicioHTTP/   #HOME del programa
+ 
+start(){
+	echo "Iniciando servicio: "
+	python /home/edwin/servicioHTTP/servicio.py &
+	PID=$! 
+	echo "El identificador del proceso es: $PID"
+	echo
+}
+ 
+stop(){
+	echo "Deteniendo el servicio http"
+	echo "El identificador del proceso es: $PID"
+	kill $PID
+	echo	
+}
+ 
+restart(){
+	stop
+	sleep 10
+	start
+}
+ 
+# Dependiento del parametro que se le pase
+#start - stop - restart ejecuta la función correspondiente.
+case "$1" in
+start)
+	start
+;;
+stop)
+	stop
+;;
+restart)
+	restart
+;;
+*)
+ echo $"Usar: $0 {start|stop|restart}"
+ exit 1
+esac
+ 
+exit 0

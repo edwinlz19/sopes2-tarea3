@@ -2,7 +2,7 @@
 #!/bin/sh
 
 ### BEGIN INIT INFO
-# Provides:          servicioHTTP
+# Provides:          deamon-servicioHTTP
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
@@ -11,26 +11,28 @@
 # Description:       Tarea3 SOPES2 - Edwin Lopez 201122990
 ### END INIT INFO
  
-programa=/home/edwin/servicioHTTP/   #HOME del programa
- 
+programa=/home/edwin/servicioHTTP/pidServidor.txt   #HOME del programa
+
 start(){
-	echo "Iniciando servicio: "
+	echo "[*] iniciando servicio"
 	python /home/edwin/servicioHTTP/servicio.py &
 	PID=$! 
-	echo "El identificador del proceso es: $PID"
+	echo "[*] el servidor se ha iniciado"
+	echo $PID > $programa
 	echo
 }
  
 stop(){
-	echo "Deteniendo el servicio http"
-	echo "El identificador del proceso es: $PID"
+	echo "[*] deteniendo el servicio http"
+	PID=$(cat $programa)
+	echo "[*] el servidor se ha detenido"
 	kill $PID
 	echo	
 }
  
 restart(){
 	stop
-	sleep 10
+	sleep 5
 	start
 }
  
